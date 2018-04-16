@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.sondemo.dao.BookDOMapper">
+    <cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>
+    <resultMap id="BaseResultMap" type="com.example.sondemo.entity.BookDO">
+        <id column="b_id" property="bId" jdbcType="INTEGER"/>
+        <result column="b_title" property="bTitle" jdbcType="VARCHAR"/>
+        <collection property="authorDos" ofType="com.example.sondemo.entity.AuthorDo">
+            <result column="a_id" property="aId" jdbcType="INTEGER"/>
+            <result column="a_name" property="aName" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+   b_id,b_title,athors.a_id,athors.a_name
+    from
+    books
+    left JOIN b_and_a ON books.b_id=b_and_a.b_id_b
+    LEFT JOIN athors on athors.a_id = b_and_a.a_id_a
+    where b_id = #{bId,jdbcType=INTEGER}
+  </select>
+</mapper>

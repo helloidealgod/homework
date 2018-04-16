@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.sondemo.dao.CarsMapper" >
+  <resultMap id="BaseResultMap" type="com.example.sondemo.entity.Cars" >
+    <id column="c_id" property="cId" jdbcType="INTEGER" />
+    <result column="c_name" property="cName" jdbcType="VARCHAR" />
+    <result column="c_color" property="cColor" jdbcType="VARCHAR" />
+    <result column="c_type" property="cType" jdbcType="VARCHAR" />
+    <discriminator javaType="java.lang.Integer" column="c_type">
+      <case value="1" resultType="com.example.sondemo.entity.LittleCar">
+        <result column="c_doors" property="cDoors" jdbcType="INTEGER" />
+      </case>
+      <case value="2" resultType="com.example.sondemo.entity.BigCar">
+        <result column="c_boxs" property="cBoxs" jdbcType="VARCHAR" />
+      </case>
+    </discriminator>
+  </resultMap>
+  <select id="selectCarLByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    *
+    from cars
+    where c_type=1
+  </select>
+  <select id="selectCarBByPrimaryKey" resultMap="BaseResultMap">
+    select
+    *
+    from cars
+    where c_type=2
+  </select>
+</mapper>
